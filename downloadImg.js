@@ -32,5 +32,5 @@ async function downloadImgs(imgName, startIndex, imgSelector, extension) {
 
 async function downloadYukeTang(pptName, startIndex = 0)
 {
-   await downloadImgs(pptName, startIndex, "img.pptimg");
+   await downloadImgs(pptName, startIndex, "img.pptimg", ".png");
 }
