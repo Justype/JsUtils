@@ -109,14 +109,14 @@ async function downloadImgs(imgName, startIndex, imgSelector, sleepMs = 200) {
     for (let i = 0; i < imgList.length; i++) {
         const img = imgList[i];
         const urlString = img.src;
-        const fileName = imgName+ " " + (startIndex  + i + 1);
+        const fileName = imgName+ " " + (startIndex  + i);
         downloadFile(urlString, fileName);
         await sleep(sleepMs);   // 防止连接数过多，下一半停止
     }
 }
 
 // 默认文件名为页面标题
-async function downloadYuKeTang(pptName = document.title, startIndex = 0) {
+async function downloadYuKeTang(pptName = document.title, startIndex = 1) {
     await downloadImgs(pptName, startIndex, "img.pptimg", 100);
     // 因为浏览页面时，浏览器已经下载了图片，所以可以减小等待时间。
 }
