@@ -32,14 +32,30 @@
         </li>
     </ul>
     <script>
+        function copyText(text) {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    alert("复制成功");
+                });
+            }
+            else {
+                const textarea = document.createElement('textarea');
+                document.body.appendChild(textarea);
+                textarea.value = text;
+                textarea.focus();
+                textarea.select();
+                if (document.execCommand('copy'))
+                    alert("复制成功");
+                document.body.removeChild(textarea);
+            }
+        }
         let yuketangBtn = document.querySelector("#yuketang");
         yuketangBtn.onclick = function () {
             console.log(123);
             fetch("./downloadImg.js").then(async response => {
                 text = await response.text();
                 text += "\n\ndownloadYuKeTang();";
-                await navigator.clipboard.writeText(text);
-                alert("复制成功");
+                copyText(text);
             });
         }
     </script>
