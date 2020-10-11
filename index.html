@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JsUtils</title>
+    <style>
+        td {
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1><a href="https://github.com/justype/JsUtils">JsUtils</a></h1>
+    <h2>源代码</h2>
+    <table>
+        <tr>
+            <td><a href="https://github.com/justype/JsUtils/blob/main/download.js">download.js</a></td>
+            <td>下载文件，自动识别文件扩展名</td>
+        </tr>
+        <tr>
+            <td><a href="https://github.com/justype/JsUtils/blob/main/downloadImg.js">downloadImg.js</a></td>
+            <td>通过CSS选择器下载图片</td>
+        </tr>
+    </table>
+    <h2>复制代码</h2>
+    <ul>
+        <li>
+            <button id="yuketang">复制 下载雨课堂PPT 代码</button>
+        </li>
+    </ul>
+    <script>
+        let yuketangBtn = document.querySelector("#yuketang");
+        yuketangBtn.onclick = function () {
+            console.log(123);
+            fetch("./downloadImg.js").then(async response => {
+                text = await response.text();
+                text += "\n\ndownloadYuKeTang();";
+                await navigator.clipboard.writeText(text);
+                alert("复制成功");
+            });
+        }
+    </script>
+</body>
+
+</html>
