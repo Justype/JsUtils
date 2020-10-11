@@ -103,7 +103,6 @@ function downloadFile(urlString, fileName) {
 }
 
 async function downloadImgs(imgName, startIndex, imgSelector) {
-    // imgName = imgName || document.title;
     startIndex = startIndex || 0;
     const imgList = document.querySelectorAll(imgSelector);
 
@@ -116,7 +115,7 @@ async function downloadImgs(imgName, startIndex, imgSelector) {
     }
 }
 
-async function downloadYuKeTang(pptName, startIndex = 0) {
+// 默认文件名为页面标题
+async function downloadYuKeTang(pptName = document.title, startIndex = 0) {
     await downloadImgs(pptName, startIndex, "img.pptimg");
 }
-
