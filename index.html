@@ -5,58 +5,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JsUtils</title>
+    <script src="./download.js"></script>
+    <script src="./copy.js"></script>
     <style>
         td {
             padding: 5px;
+        }
+        code{
+            font-family: consolas, monospace;
+            background: #e0e0e0;
+            padding: 3px;
+            border-radius: 5px;
         }
     </style>
 </head>
 
 <body>
     <h1><a href="https://github.com/justype/JsUtils">JsUtils</a></h1>
+    <h2>复制代码</h2>
+    <table>
+        <tr>
+            <td>下载雨课堂PPT</td>
+            <td><button id="yuketang">复制代码</button></td>
+            <td><code>ndownloadYuKeTang(前缀名:string, 开始序列: number)</code></td>
+        </tr>
+    </table>
+
     <h2>源代码</h2>
     <table>
         <tr>
             <td><a href="https://github.com/justype/JsUtils/blob/main/download.js">download.js</a></td>
             <td>下载文件，自动识别文件扩展名</td>
+            <td><button onclick="copyTextFromFile('./download.js')">复制</button></td>
         </tr>
         <tr>
-            <td><a href="https://github.com/justype/JsUtils/blob/main/downloadImg.js">downloadImg.js</a></td>
-            <td>通过CSS选择器下载图片</td>
+            <td><a href="https://github.com/justype/JsUtils/blob/main/download-img.js">download-img.js</a></td>
+            <td>通过CSS选择器，连续下载图片</td>
+            <td><button onclick="copyTextFromFile('./download-img.js')">复制</button></td>
         </tr>
     </table>
-    <h2>复制代码</h2>
-    <ul>
-        <li>
-            <button id="yuketang">复制 下载雨课堂PPT 代码</button>
-        </li>
-    </ul>
     <script>
-        function copyText(text) {
-            if (navigator.clipboard) {
-                navigator.clipboard.writeText(text).then(() => {
-                    alert("复制成功");
-                });
-            }
-            else {
-                const textarea = document.createElement('textarea');
-                document.body.appendChild(textarea);
-                textarea.value = text;
-                textarea.focus();
-                textarea.select();
-                if (document.execCommand('copy'))
-                    alert("复制成功");
-                document.body.removeChild(textarea);
-            }
-        }
+        
         let yuketangBtn = document.querySelector("#yuketang");
-        yuketangBtn.onclick = function () {
-            console.log(123);
-            fetch("./downloadImg.js").then(async response => {
-                text = await response.text();
-                text += "\n\ndownloadYuKeTang();";
-                copyText(text);
-            });
+        yuketangBtn.onclick = async function () {
+            let text = await getTextFromFile('./download-img.js');
+            text += "\n\ndownloadYuKeTang();";
+            copyText(text);
         }
     </script>
 </body>

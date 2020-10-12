@@ -1,5 +1,5 @@
 // 用来识别 Blob 的 Mime Type
-var MimeExtension = { };
+class MimeExtension { }
 MimeExtension["audio/aac"] = ".aac";
 MimeExtension["application/x-abiword"] = ".abw";
 MimeExtension["application/x-freearc"] = ".arc";
