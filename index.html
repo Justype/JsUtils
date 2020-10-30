@@ -7,15 +7,58 @@
     <title>JsUtils</title>
     <script src="./download.js"></script>
     <script src="./copy.js"></script>
+    <script>
+        async function copyYuKeTang(filePath) {
+            let text = await getTextFromFile(filePath);
+            text += "\ndownloadYuKeTang();";
+            copyText(text);
+        }
+    </script>
     <style>
         td {
             padding: 5px;
         }
-        code{
+
+        code {
             font-family: consolas, monospace;
             background: #e0e0e0;
             padding: 3px;
             border-radius: 5px;
+        }
+
+        div.warn {
+            color: darkred;
+            border: darkred solid 1px;
+            font-weight: bold;
+            border-radius: 5px;
+            display: inline-block;
+            padding: 3px;
+        }
+
+        .new::after {
+            content: "new";
+            vertical-align: text-top;
+            color: white;
+            background: #3771bb;
+            padding: 0px 3px 2px;
+            border-radius: 5px;
+            font-size: x-small;
+            display: inline-block;
+        }
+
+        .not-recommend {
+            text-decoration: line-through;
+        }
+
+        .not-recommend::after {
+            content: "不建议";
+            vertical-align: text-top;
+            color: white;
+            background: brown;
+            padding: 0px 3px 2px;
+            border-radius: 5px;
+            font-size: x-small;
+            display: inline-block
         }
     </style>
 </head>
@@ -25,13 +68,25 @@
     <h2>复制代码</h2>
     <table>
         <tr>
-            <td>下载雨课堂PPT</td>
-            <td><button id="yuketang">复制代码</button></td>
-            <td><code>ndownloadYuKeTang(前缀名:string, 开始序列: number)</code></td>
+            <th>名称</th>
+            <th>格式</th>
+        </tr>
+        <tr>
+            <td class="new">下载雨课堂PPT</td>
+            <td>PDF</td>
+            <td><button onclick="copyYuKeTang('./download-pdf.js')">复制代码</button></td>
+            <td><code>downloadYuKeTang(文件名:string)</code></td>
+        </tr>
+        <tr>
+            <td class="not-recommend">下载雨课堂的图片</td>
+            <td>很多图片</td>
+            <td><button onclick="copyYuKeTang('./download-img.js')">复制代码</button></td>
+            <td><code>downloadYuKeTang(前缀名:string, 开始序列: number)</code></td>
         </tr>
     </table>
 
     <h2>源代码</h2>
+    <div class="warn">！不能跨域下载！</div>
     <table>
         <tr>
             <td><a href="https://github.com/justype/JsUtils/blob/main/download.js">download.js</a></td>
@@ -43,16 +98,12 @@
             <td>通过CSS选择器，连续下载图片</td>
             <td><button onclick="copyTextFromFile('./download-img.js')">复制</button></td>
         </tr>
+        <tr>
+            <td><a href="https://github.com/justype/JsUtils/blob/main/download-pdf.js">download-pdf.js</a></td>
+            <td>通过CSS选择器，把图片合并到一个PDF内</td>
+            <td><button onclick="copyTextFromFile('./download-pdf.js')">复制</button></td>
+        </tr>
     </table>
-    <script>
-        
-        let yuketangBtn = document.querySelector("#yuketang");
-        yuketangBtn.onclick = async function () {
-            let text = await getTextFromFile('./download-img.js');
-            text += "\n\ndownloadYuKeTang();";
-            copyText(text);
-        }
-    </script>
 </body>
 
 </html>
