@@ -101,24 +101,3 @@ async function downloadFile(urlString, fileName) {
     URL.revokeObjectURL(link.href);
     link.remove();
 }
-
-async function downloadImgs(imgName, startIndex, imgSelector, sleepMs = 200) {
-    startIndex = startIndex || 0;
-    const imgList = document.querySelectorAll(imgSelector);
-
-    for (let i = 0; i < imgList.length; i++) {
-        const img = imgList[i];
-        const urlString = img.src;
-        const fileName = imgName + " " + (startIndex + i);
-        await Promise.all([
-            downloadFile(urlString, fileName),
-            sleep(sleepMs) // 防止连接数过多，下一半停止
-        ]);
-    }
-}
-
-// 默认文件名为页面标题
-async function downloadYuKeTang(pptName = document.title, startIndex = 1) {
-    await downloadImgs(pptName, startIndex, "img.pptimg", 100);
-    // 因为浏览页面时，浏览器已经下载了图片，所以可以减小等待时间。
-}

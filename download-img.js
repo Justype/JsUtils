@@ -80,7 +80,7 @@ function sleep(ms) {
 
 // 用 fetch 获取资源， a 标签的click() 触发下载
 // 不输入文件名，使用默认文件名
-async function downloadFile(urlString, fileName) {
+async function downloadFile(urlString, fileName = null) {
     const response = await fetch(urlString);
     const link = document.createElement('a');
     const blob = await response.blob();
@@ -90,11 +90,11 @@ async function downloadFile(urlString, fileName) {
         link.download = fileName + MimeExtension[blob.type];
     else {
         let extension = urlString.split('.').pop();
-        let fullFileName = urlString.split('/').pop();
-        if (extension.includes(fullFileName)) // 没有后缀名
-            link.download = decodeURI(fullFileName) + MimeExtension[blob.type];
+        fileName = urlString.split('/').pop();
+        if (extension.includes(fileName)) // 没有后缀名
+            link.download = decodeURI(fileName) + MimeExtension[blob.type];
         else
-            link.download = decodeURI(fullFileName);
+            link.download = decodeURI(fileName);
     }
     link.click();
     console.log(fileName, urlString, "StartDownload");
@@ -102,14 +102,16 @@ async function downloadFile(urlString, fileName) {
     link.remove();
 }
 
-async function downloadImgs(imgName, startIndex, imgSelector, sleepMs = 200) {
-    startIndex = startIndex || 0;
+
+async function downloadImgs(imgSelector, imgName = null, startIndex = 1, sleepMs = 200) {
     const imgList = document.querySelectorAll(imgSelector);
 
     for (let i = 0; i < imgList.length; i++) {
         const img = imgList[i];
         const urlString = img.src;
-        const fileName = imgName + " " + (startIndex + i);
+
+        const fileName = imgName === null ? null : imgName + " " + (startIndex + i);    // 如果名字为空，就传空
+
         await Promise.all([
             downloadFile(urlString, fileName),
             sleep(sleepMs) // 防止连接数过多，下一半停止
@@ -119,6 +121,6 @@ async function downloadImgs(imgName, startIndex, imgSelector, sleepMs = 200) {
 
 // 默认文件名为页面标题
 async function downloadYuKeTang(pptName = document.title, startIndex = 1) {
-    await downloadImgs(pptName, startIndex, "img.pptimg", 100);
+    await downloadImgs("img.pptimg", pptName, startIndex, 100);
     // 因为浏览页面时，浏览器已经下载了图片，所以可以减小等待时间。
 }
