@@ -20,7 +20,7 @@
             let span_result = document.getElementById("chemical_result");
 
             let result = normal_to_chemical(input_text.value);
-            span_result.innerHTML = result;
+            span_result.value = result;
 
             if (isCopy) {
                 copyText(result);
@@ -74,10 +74,14 @@
             display: inline-block
         }
 
-        #unconverted_text{
-            width: auto;
+        #unconverted_text, #chemical_result{
+            width: 50%;
             min-width: 50px;
+            max-width: 95%;
+            min-height: 100px;
+            display: inline-block;
             font-size: large;
+            font-family: "Microsoft YaHei";
         }
     </style>
 </head>
@@ -104,9 +108,18 @@
         </tr>
     </table>
 
-    <h2>转换器</h2>
-    <input type="text" id="unconverted_text"> <button onclick="char2chemical()">转换为化学式</button> <button onclick="char2chemical(true)">并复制</button>
-    <div><span>结果：</span> <span id="chemical_result"></span></div>
+    <hr>
+    <h2>化学公式 转换器</h2>
+    <div>
+        <textarea id="unconverted_text"></textarea>
+    </div>
+    <button onclick="char2chemical()">转换为化学式</button> <button onclick="char2chemical(true)">并复制</button>
+    <div>
+        <p>结果：</p>
+        <textarea id="chemical_result"></textarea>
+    </div>
+
+    <hr>
 
     <h2>源代码</h2>
     <div class="warn">！不能跨域下载！</div>
