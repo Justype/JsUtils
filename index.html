@@ -15,11 +15,11 @@
             copyText(text);
         }
 
-        function char2chemical(isCopy = false) {
+        function char2Chemical(isCopy = false, isFix = false) {
             let input_text = document.getElementById("unconverted_text");
             let span_result = document.getElementById("chemical_result");
 
-            let result = normal_to_chemical(input_text.value);
+            let result = isFix ? fixAndToChemical(input_text.value) : normalToChemical(input_text.value);
             span_result.value = result;
 
             if (isCopy) {
@@ -74,13 +74,14 @@
             display: inline-block
         }
 
-        #unconverted_text, #chemical_result{
-            width: 50%;
+        #unconverted_text,
+        #chemical_result {
+            width: 80%;
             min-width: 50px;
             max-width: 95%;
             min-height: 100px;
             display: inline-block;
-            font-size: large;
+            font-size: medium;
             font-family: "Microsoft YaHei";
         }
     </style>
@@ -110,10 +111,20 @@
 
     <hr>
     <h2>化学公式 转换器</h2>
+    <p>主要解决的问题：从PDF里面复制出的公式格式不对</p>
     <div>
         <textarea id="unconverted_text"></textarea>
     </div>
-    <button onclick="char2chemical()">转换为化学式</button> <button onclick="char2chemical(true)">并复制</button>
+    <table>
+        <tr>
+            <td><button onclick="char2Chemical()">转换为化学式</button></td>
+            <td><button onclick="char2Chemical(true)">并复制</button></td>
+        </tr>
+        <tr>
+            <td><button onclick="char2Chemical(false, true)">修复可能的错误并转换</button></td>
+            <td><button onclick="char2Chemical(true, true)">再复制</button></td>
+        </tr>
+    </table>
     <div>
         <p>结果：</p>
         <textarea id="chemical_result"></textarea>
