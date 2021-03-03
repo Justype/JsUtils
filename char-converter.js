@@ -17,7 +17,12 @@ Superscript["+"] = "⁺";
 Superscript["-"] = "⁻";
 
 
-function normal_to_chemical(string) {
-    return string.replace(/[\w\d][\+\-]/g, c => c[0] + Superscript[c[1]])
-                 .replace(/\d/g, c => Subscript[c]);
+function normal_to_chemical(text) {
+    return text.replace(/[\w\d][\+\-]/g, c => c[0] + Superscript[c[1]])
+        .replace(/\w\d+/g, c => {
+            r = c[0];
+            for (let i = 1; i < c.length; i++)
+                r += Subscript[c[i]];
+            return r;
+        });
 }
