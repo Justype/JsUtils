@@ -9,21 +9,28 @@
     <script src="./copy.js"></script>
     <script src="./char-converter.js"></script>
     <script>
-        async function copyYuKeTang(filePath) {
+        async function copyFilePlusCode(filePath, code) {
             let text = await getTextFromFile(filePath);
-            text += "\ndownloadYuKeTang();";
+            text += "\n" + code;
             copyText(text);
         }
 
-        function char2Chemical(isCopy = false, isFix = false) {
+        function char2Chemical(isCopy = false, isReplace = false) {
             let input_text = document.getElementById("unconverted_text");
             let span_result = document.getElementById("chemical_result");
-
-            let result = isFix ? fixAndToChemical(input_text.value) : normalToChemical(input_text.value);
+            let text = isReplace ? replaceSomeWord(input_text.value) : input_text.value;
+            let result = fixAndToChemical(text);
             span_result.value = result;
 
-            if (isCopy) {
+            if (isCopy)
                 copyText(result);
+        }
+
+        function addText(text, el = document.getElementById("chemical_result")) {
+            if (el.setRangeText) {
+                const [start, end] = [el.selectionStart, el.selectionEnd];
+                el.setRangeText(text, start, end, 'end');
+                el.focus();
             }
         }
     </script>
@@ -89,29 +96,41 @@
 
 <body>
     <h1><a href="https://github.com/justype/JsUtils">JsUtils</a></h1>
-    <h2>复制代码</h2>
+    <h2>下载PPT的代码</h2>
     <table>
         <tr>
             <th>名称</th>
             <th>格式</th>
         </tr>
         <tr>
-            <td class="new">下载雨课堂PPT</td>
+            <td>雨课堂PPT</td>
             <td>PDF</td>
-            <td><button onclick="copyYuKeTang('./download-pdf.js')">复制代码</button></td>
-            <td><code>downloadYuKeTang(文件名:string)</code></td>
+            <td><button onclick="copyFilePlusCode('./download-pdf.js', 'downloadYuKeTang();')">复制</button></td>
+            <td><code>downloadYuKeTang(文件名: string)</code></td>
         </tr>
         <tr>
-            <td class="not-recommend">下载雨课堂的图片</td>
+            <td class="new">丁香园的横向PPT</td>
+            <td>PDF</td>
+            <td><button onclick="copyFilePlusCode('./download-pdf.js', 'downloadDxyPpt();')">复制</button></td>
+            <td><code>downloadDxyPpt(文件名: string)</code></td>
+        </tr>
+        <tr>
+            <td class="new">丁香园的纵向文章的所有图片</td>
+            <td>PDF</td>
+            <td><button onclick="copyFilePlusCode('./download-pdf.js', 'downloadDxyImgs();')">复制</button></td>
+            <td><code>downloadDxyImgs(文件名: string)</code></td>
+        </tr>
+        <tr>
+            <td class="not-recommend">雨课堂的图片</td>
             <td>很多图片</td>
-            <td><button onclick="copyYuKeTang('./download-img.js')">复制代码</button></td>
+            <td><button onclick="copyFilePlusCode('./download-img.js', 'downloadYuKeTang();')">复制</button></td>
             <td><code>downloadYuKeTang(前缀名:string, 开始序列: number)</code></td>
         </tr>
     </table>
 
     <hr>
     <h2>化学公式 转换器</h2>
-    <p>主要解决的问题：从PDF里面复制出的公式格式不对</p>
+    <p>主要解决的问题：从PDF里面复制出的公式格式不对。BUG：带电不能超过1</p>
     <div>
         <textarea id="unconverted_text"></textarea>
     </div>
@@ -121,13 +140,21 @@
             <td><button onclick="char2Chemical(true)">并复制</button></td>
         </tr>
         <tr>
-            <td><button onclick="char2Chemical(false, true)">修复可能的错误并转换</button></td>
+            <td><button onclick="char2Chemical(false, true)">替换一些文字并转换</button></td>
             <td><button onclick="char2Chemical(true, true)">再复制</button></td>
+            <td>如：下降 ↓</td>
         </tr>
     </table>
     <div>
         <p>结果：</p>
         <textarea id="chemical_result"></textarea>
+        <div>
+            <button onclick='copyText(document.getElementById("chemical_result").value)'>复制</button>
+            <span> 添加</span>
+            <button onclick="addText('²')">²</button>
+            <button onclick="addText('³')">³</button>
+            <button onclick="addText('⁴')">⁴</button>
+        </div>
     </div>
 
     <hr>

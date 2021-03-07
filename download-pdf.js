@@ -56,3 +56,13 @@ async function imgToPdf(cssSelector, fileName) {
 function downloadYuKeTang(fileName) {
     imgToPdf("img.pptimg", fileName);
 }
+
+// 丁香园 PPT
+function downloadDxyPpt(fileName = document.title.replace(" - 丁香园", "")) {
+    imgToPdf("div.lst>img", fileName);
+}
+
+// 竖向丁香园 图片
+function downloadDxyImgs(fileName = document.title.replace(" - 丁香园", "")) {
+    imgToPdf("#content>p>img", fileName);
+}
